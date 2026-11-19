@@ -1,8 +1,22 @@
 # Devin Multi-Agent IDE
 
-A proposed macOS IDE for handing a coding task from one agent to another in the middle of an edit. Each task gets a Git worktree. A developer can stop Devin after it writes a backend handler, open the same files with a second agent, and finish the UI without copying patches or reconstructing the task from chat.
+A macOS IDE prototype for handing a coding task from one agent to another in the middle of an edit. Each task gets a Git worktree so the next session can see the same files on disk.
 
-**Project status:** Architecture proposal for the first prototype. The workflow below describes the intended implementation.
+## Run the desktop prototype
+
+Install Node.js 24 and Git, then run the following from this repository.
+
+```sh
+npm ci
+npm start
+```
+
+1. Click **Open Repository** and choose a local Git checkout with an existing commit.
+2. Enter a task name such as `CSV export` and click **Create Worktree**. The app creates `task/csv-export` from the checkout's current `HEAD`.
+3. Select a file to preview it. Use **Reveal Worktree** to open the checkout in Finder and edit a file or add a new one.
+4. Click **Refresh** and open **Changes** to inspect the result. The app reads tracked and untracked changes directly from Git. Reopen the same repository to find existing `task/*` worktrees in the sidebar.
+
+The workflow below describes the planned Devin CLI, editor, and handoff integrations.
 
 ## First demo: export the orders on screen
 
@@ -17,7 +31,7 @@ Open an orders app, filter the table to three orders, and ask for a CSV export t
 
 | Component | Planned implementation | Responsibility |
 | --- | --- | --- |
-| Desktop UI | Electron renderer, React, TypeScript | Task selection, editor tabs, terminal panes, and handoff controls |
+| Desktop UI | Electron renderer, React, TypeScript | Task selection and file preview, with editor tabs, terminal panes, and handoff controls planned |
 | Editor | Monaco | Display and edit files rooted in the selected worktree |
 | Local backend | Electron main process, Node.js, TypeScript | Own task state, invoke Git, read and write files, and manage subprocesses |
 | Terminal | xterm.js in the renderer, node-pty in the backend | Display interactive sessions and connect keyboard input and resize events to the right process |
@@ -67,4 +81,4 @@ If an agent described a handler as committed and Git lists it as untracked, the 
 
 ## First implementation milestone
 
-Open a local repository, create one task worktree, launch Devin inside it, and display a file it edits in Monaco. Once that path works, add the second terminal and task persistence, then demonstrate the interrupted CSV task end to end.
+The desktop prototype can open a local repository, create a task worktree, and preview its files. The next step is to launch Devin inside that worktree and display a file it edits in Monaco. The second terminal and handoff persistence support the full interrupted CSV demo.

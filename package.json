@@ -1,0 +1,25 @@
+{
+  "name": "devin-multiagent-ide",
+  "version": "0.1.0",
+  "private": true,
+  "productName": "Devin Multi-Agent IDE",
+  "description": "An Electron workspace for coding tasks in Git worktrees.",
+  "license": "MIT",
+  "main": "dist/main.cjs",
+  "scripts": {
+    "build": "tsc --noEmit && esbuild src/main.ts src/preload.ts --bundle --platform=node --external:electron --outdir=dist --out-extension:.js=.cjs && esbuild src/renderer.tsx --bundle --outdir=dist",
+    "start": "npm run build && electron ."
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "electron": "^45.4.1",
+    "esbuild": "^0.28.0",
+    "typescript": "~5.9.3"
+  }
+}
